@@ -7,7 +7,11 @@ int main() {
   std::cout << std::unitbuf;
   std::cerr << std::unitbuf;
 
-  std::unordered_set<std::string> cmds;
+  std::unordered_map<std::string, std::function<void()>> cmds;
+
+  cmds["exit"] = []() {
+	exit(0);	
+  };
 
   while (true) {
 	  std::string userCmd;
@@ -19,7 +23,10 @@ int main() {
 	  // Print an error message in exactly this format: {command}: command not found
 	  if (!cmds.count(userCmd)) {
 		  std::cerr << userCmd << ": command not found\n";
+		  continue;
 	  }
+
+	  cmds[userCmd]();
   }
 
 }
