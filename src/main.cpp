@@ -7,7 +7,7 @@ int main() {
   std::cout << std::unitbuf;
   std::cerr << std::unitbuf;
 
-  std::unordered_map<std::string, std::function<void()>> cmds;
+  std::unordered_map<std::string, std::function<void()>> cmds = {};
 
   cmds["exit"] = []() {
 	exit(0);	
