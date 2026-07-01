@@ -7,17 +7,19 @@ int main() {
   std::cout << std::unitbuf;
   std::cerr << std::unitbuf;
 
-  std::string userCmd;
   std::unordered_set<std::string> cmds;
 
-  std::cout << "$ ";
+  while (true) {
+	  std::string userCmd;
+	  std::cout << "$ ";
 
-  // read user's input
-  std::getline(std::cin, userCmd);
+	  // read user's input
+	  std::getline(std::cin, userCmd);
 
-  // Print an error message in exactly this format: {command}: command not found
-  if (!cmds.count(userCmd)) {
-	  std::cout << userCmd << ": command not found\n";
+	  // Print an error message in exactly this format: {command}: command not found
+	  if (!cmds.count(userCmd)) {
+		  std::cerr << userCmd << ": command not found\n";
+	  }
   }
 
 }
