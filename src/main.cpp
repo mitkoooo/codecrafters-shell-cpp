@@ -5,7 +5,7 @@
 
 
 std::pair<std::string, std::vector<std::string>> parseInput(std::string line) {
-	std::stringstream ss;
+	std::stringstream ss(line);
 	std::string cmd;
 	std::vector<std::string> args;
 
@@ -28,6 +28,15 @@ int main() {
 
   cmds["exit"] = [](const std::vector<std::string>& args) {
 	exit(0);	
+  };
+
+  cmds["echo"] = [](const std::vector<std::string>& args) {
+	int n = args.size();
+	for (int i = 0; i < n; i++) {
+
+		std::cout << args[i];
+		i == n - 1 ? std::cout << '\n' : std::cout << ' ';
+	}
   };
 
 
