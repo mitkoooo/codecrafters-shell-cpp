@@ -39,6 +39,16 @@ int main() {
 	}
   };
 
+  cmds["type"] = [&cmds](const std::vector<std::string>& args) {
+	if (args.size() != 1) std::cout << "incorrect usage";
+
+
+	std::cout << args[0];
+
+	std::cout << (cmds.count(args[0]) ? " is a shell builtin" : ": not found") << '\n';
+  };
+
+
 
   while (true) {
 	  std::string line;
