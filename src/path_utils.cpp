@@ -5,10 +5,33 @@
 #include <sstream>
 #include <unistd.h>
 
+
 std::string getPathEnv() {
 	const char* path = getenv("PATH");
 
 	return path ? std::string{path} : "";
+}
+
+std::filesystem::path expandPath(const std::string &rawPath) {
+  namespace fs = std::filesystem;
+
+  if (rawPath.empty()) {
+    return {};
+  }
+
+  if (rawPath == "~" || rawPath.compare(0, 2, "~/") == 0) {
+    const char* home = getenv("HOME");
+
+    if (home != nullptr) {
+      if (rawPath == "~") {
+        return fs::path{home};
+      }
+
+      return fs::path{home} / rawPath.substr(2);
+    }
+  }
+
+  return fs::path{rawPath};
 }
 
 std::vector<std::string> getPathDirectories(std::string path) {
