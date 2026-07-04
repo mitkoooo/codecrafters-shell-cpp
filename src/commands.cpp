@@ -42,11 +42,37 @@ void registerCommands(CommandMap &cmds) {
   };
 
   cmds["pwd"] = [](const std::vector<std::string>& args) {
+    namespace fs = std::filesystem;
+
     try {
-      std::cout << std::filesystem::current_path().string() << '\n';
-    } catch (const std::filesystem::filesystem_error& error) {
+      std::cout << fs::current_path().string() << '\n';
+    } catch (const fs::filesystem_error& error) {
       std::cerr << "pwd: " << error.what() << '\n';
     }
+  };
 
+  cmds["cd"] = [](const std::vector<std::string>& args) {
+    namespace fs = std::filesystem;
+
+    // check if path is absolute
+    if (args.size() != 1) {
+      std::cout << "cd: incorrect usage\n";
+      return;
+		}
+
+    std::string rawPath = args[0];
+    
+    if (rawPath.at(0) == '/') {
+      // Convert string to path 
+      fs::path path = fs::path(rawPath);
+
+      // check if path exists
+      if (!fs::exists(path)) {
+        std::cerr << "cd: " << path.string() << ": No such file or directory\n";
+        return;
+      }
+
+      fs::current_path(path);
+    }
   };
 }
